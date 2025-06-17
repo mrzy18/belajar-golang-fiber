@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSRF</title>
+  </head>
+  <body>
+    <form id="form" action="/sayhello" method="post">
+      <div>
+        <label for="name"></label>
+        <input type="text" name="name" id="name" placeholder="Type your name here" />
+      </div>
+      <div>
+        <label for="gender">Gender</label>
+        <select name="gender" id="gender">
+          <option value="">Selec one</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+      <div>
+        <input type="hidden" name="csrf" value="{{.csrf}}" />
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+    <script type="text/javascript">
+      const form = document.getElementById('form');
+      const name = document.getElementById('name');
+      const gender = document.getElementById('gender');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const formData = {
+          name: name.value,
+          gender: gender.value,
+        };
+
+        console.log(formData);
+
+        const url = form.getAttribute('action');
+        const method = form.getAttribute('method');
+        const payload = JSON.stringify(formData);
+
+        fetch(url, {
+          method: method,
+          body: payload,
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Csrf-Token': '{{.csrf}}',
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => alert(data));
+      });
+    </script>
+  </body>
+</html>
