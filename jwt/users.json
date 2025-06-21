@@ -1,0 +1,14 @@
+[
+  {
+    "username": "user1",
+    "password": "superSecret123",
+    "email": "zovis@evapiwdaw.com",
+    "group": "admin"
+  },
+  {
+    "username": "user2",
+    "password": "secret123",
+    "email": "zommedfun@ozakam.com",
+    "group": "publisher"
+  }
+]
